@@ -10,14 +10,19 @@ def select_fields_to_analyze(json_data):
     approved_fields_dict = {} # this is a dictionary with the fields and the values approved after the analyze.
     for key in json_keys_array:
         for index_json_data in range(len(json_data)):
-            array_to_analyze.append(json_data[index_json_data][key])
+            if key == 'pid':
+                array_to_analyze.append(str(json_data[index_json_data][key]))
+            else:
+                array_to_analyze.append(json_data[index_json_data][key])
         # after put all elements from a key in an array we analyze the len
         set_to_be_compared = set(array_to_analyze) # this tuple is going to be compared with the len of the json_data
         number_of_distinct_values = len(set_to_be_compared)
         diff = json_data_length - number_of_distinct_values
         diff_percentage = (diff/json_data_length) * 100
-        if(diff_percentage > 20): #**********YOU SHOULD JUSTIFY THIS*****************
+        if(type(array_to_analyze[0]) is int): #**********YOU SHOULD JUSTIFY THIS*****************
             approved_fields_dict[key] = array_to_analyze # if the diff_percentage is greater than 20% it is a categorical field.
+        elif (diff_percentage > 20):
+            approved_fields_dict[key] = array_to_analyze
         array_to_analyze = []
     # In these lines we change the characters approved to be analyzed into number, using the ASCII representation, using ord() function
     for key in approved_fields_dict:
@@ -32,6 +37,5 @@ def select_fields_to_analyze(json_data):
         for column in range(len(values_from_dict[row])):
             array_to_return[column].append(values_from_dict[row][column])
     return np.array(array_to_return) # here we have all the attributes from the entities in every array of the matrix
-
 
 

@@ -39,10 +39,10 @@ class App(tk.Tk):
             filetypes=filetypes)
         json_data = read_json_file(filename)
         samples_to_analyze = select_fields_to_analyze(json_data)
-        K_Means_ = K_Means(K=4,max_iterations=150)
+        #set_to_be_compared = np.unique(samples_to_analyze,axis=0)
+        K_Means_ = K_Means(K=5,max_iterations=150)
         pred = K_Means_.predict(samples_to_analyze)
         plotter(pred.astype(int),samples_to_analyze)
-
 
 
 
