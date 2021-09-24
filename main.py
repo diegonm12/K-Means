@@ -1,4 +1,3 @@
-
 from GUI.analyzer_gui import App
 
 if __name__ == "__main__":
